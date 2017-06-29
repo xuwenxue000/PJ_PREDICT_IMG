@@ -1,0 +1,1 @@
+{'time': 5, 'file_name': '500_wKgH1FYZE2mALP-JAAJQY1pp49o236', 'info': {'cardno': '130102198707041249', 'vinno': 'LSGHD5289FD298030', 'engineno_default': '', 'engineno': '15230132', 'price_default': '', 'price': '¥61500.00'}, 'log': {'cardno_type': 'machine', 'vinno_type': 'machine', 'engineno_type': 'tesseract src', 'price_type': 'tesseract src'}, 'page_top': 0}

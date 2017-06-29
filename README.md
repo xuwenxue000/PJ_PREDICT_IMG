@@ -71,6 +71,7 @@
     
 # darknet图片定位
     详情见另一项目darknet
+    https://github.com/xuwenxue000/PJ_DARKNET
 
          
          

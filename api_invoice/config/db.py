@@ -4,8 +4,8 @@ import torndb
 
 hostaddress = '127.0.0.1'
 databasename = 'predict_img'
-user = 'predict_img'
-password = 'predict_img'
+user = 'root'
+password = ''
 
 profile = profile_config.profile.get_profile()
 

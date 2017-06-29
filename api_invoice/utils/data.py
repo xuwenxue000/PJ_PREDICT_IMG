@@ -63,7 +63,8 @@ def getimgs(img_file,targetpath):
                                 md5_code = ''
                             invoice.md5_code = md5_code
                             id = invoice_dao.insert(invoice)
-                            img["id"]=id
+                            #img["id"]=id
+            return
     #从数据库中读取数据
     #invoices = invoice_dao.query_unprocess_data_random(100)
     invoices = invoice_dao.query_unprocess_data(20)

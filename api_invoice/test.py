@@ -67,7 +67,7 @@ else :
 test_name=[]
 
 #test_name.append("111")
-test_name.append("autohomecar__wKjBwlgmeSaAJrTHAAG-BeYqJoM741")
+#test_name.append("autohomecar__wKjBwlgmeSaAJrTHAAG-BeYqJoM741")
 
 
 #test_name.append("41586520-7668-chbe-1gce-n204abm4cf7d")
@@ -267,18 +267,18 @@ def img_process(img):
 
 
 def build_check_char_img(field_name,info,result,server_char_dir="upper_201706",server_number_dir="number_201706",server_signal_dir="signal_201706",char_set="ABCDEFGHIJKLMNOPQRSTUVWXYZ",num_set="0123456789",signal_set=".¥-"):
-    target_mydateset_base_dir=mydateset_base_dir2
+    target_mydateset_base_dir=mydateset_base_dir
     if not os.path.exists(target_mydateset_base_dir):
-        target_mydateset_base_dir =mydateset_base_dir
+        target_mydateset_base_dir =mydateset_base_dir2
     server_char_path = os.path.join(target_mydateset_base_dir,server_char_dir)
     if not os.path.exists(server_char_path):
-        os.mkdir(server_char_path)
+        os.makedirs(server_char_path)
     server_number_path = os.path.join(target_mydateset_base_dir,server_number_dir)
     if not os.path.exists(server_number_path):
-        os.mkdir(server_number_path)
+        os.makedirs(server_number_path)
     server_signal_path = os.path.join(target_mydateset_base_dir,server_signal_dir)
     if not os.path.exists(server_signal_path):
-        os.mkdir(server_signal_path)
+        os.makedirs(server_signal_path)
     field = info.get(field_name);
     field_file = result.get(field_name+"_file")
     logger.info("=============="+field_name+","+field_name+"_file", field, field_file)
@@ -366,23 +366,24 @@ def get_target_imgs():
             os.mkdir(file_dir_img_root)
         imgs = data.get_by_filenames(test_name, file_dir_img_root)
     target_imgs = []
-    for img in imgs:
-        file_name = img["name"]
-        # print(file_name)
-        if file_name in exclude:
-            # break
-            pass
-        else:
-            file_path_src_dir = file_dir_img_root + file_name
-            # print(file_path_src_dir)
-            if os.path.exists(file_path_src_dir):
-                shutil.rmtree(file_path_src_dir)
+    if imgs:
+        for img in imgs:
+            file_name = img["name"]
+            # print(file_name)
+            if file_name in exclude:
+                # break
+                pass
+            else:
+                file_path_src_dir = file_dir_img_root + file_name
+                # print(file_path_src_dir)
+                if os.path.exists(file_path_src_dir):
+                    shutil.rmtree(file_path_src_dir)
 
-            file_suffix = img["suffix"]
-            if not test_name or len(test_name) == 0:
-                target_imgs.append(img)
-            elif file_name in test_name:
-                target_imgs.append(img)
+                file_suffix = img["suffix"]
+                if not test_name or len(test_name) == 0:
+                    target_imgs.append(img)
+                elif file_name in test_name:
+                    target_imgs.append(img)
     return target_imgs
 
 target_imgs = get_target_imgs()

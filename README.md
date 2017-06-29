@@ -1,11 +1,24 @@
+# 说明
+  此项目用于对中国购车发票进行内容识别,目前完成的是身份证,vin,发动机号,价格的识别
+  提供了展示的demo页,以及提供了传入文件,路径,base64码的多种方式调用的api,返回识别出来的json数据
 
-# 示例说明
+
+# 使用说明
 - 首先找一张发票的图片:
 
     - 百度搜索出来的图片:
         https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498711297986&di=5684845f9c4904b92523a608ff2ed370&imgtype=0&src=http%3A%2F%2Fclub2.autoimg.cn%2Falbum%2Fg13%2FM0F%2FA4%2FA3%2Fuserphotos%2F2015%2F10%2F10%2F21%2F500_wKgH1FYZE2mALP-JAAJQY1pp49o236.jpg
     - 找到原图地址:
         http://club2.autoimg.cn/album/g13/M0F/A4/A3/userphotos/2015/10/10/21/500_wKgH1FYZE2mALP-JAAJQY1pp49o236.jpg
+- 下载
+    - git clone https://github.com/xuwenxue000/PJ_PREDICT_IMG.git
+- 环境安装
+    - python3
+    - opencv
+    - tesseract
+    - mysql
+    - python内引入的包
+
 - 启动识别服务(web接口服务)
     执行./api_invoice/main.py,开启的是8888端口,暂时未做配置化,可以直接在main.py中修改
 
@@ -23,6 +36,11 @@
     "price": "¥61500.00"
     }
     - 还支持上传文件,图片base64字符串传参等多种方式
+
+
+
+
+
 # 代码执行过程说明
 - 使用tornado启动web服务,json格式化数据
 - 首先对图片做处理,opencv,PIL,找到需要识别的局部图片并截取出来
@@ -67,7 +85,14 @@
 
 
 # 单图识别训练:
-    建梅补充
+- 模型训练
+    - 训练出的模型包括：识别10个数字类别模型；用于身份证识别的 识别"数字+X" 11个类别的模型；识别"大写字母+数字" 26个类别的模型。
+    - 训练样本处理的目录为/creatTrainDataSet, 模型训练的目录为 /train/
+        - 准备图片：本项目将发票系统中的数字，字母图片切割出来，转换成统一的28*28图片
+        - 为尽可能提高训练模型识别率，将图片做相应处理，剔除噪声较多的图片，尤其是每一类别有相同噪声的图片。
+        - 已经处理好的训练样本图片见压缩包：/dataset/numberAndX.tar.gz,/dataset/numberAndUpper.tar.gz，解压缩到自定义目录
+        - 修改/train目录下相应的模型训练文件，生成对应训练模型，已有模型在目录/trainmodel/下
+        - 修改/train/keras_predict.py中需要识别的的图片路径或目录，使用已有模型识别图片类型。
     
 # darknet图片定位
     详情见另一项目darknet

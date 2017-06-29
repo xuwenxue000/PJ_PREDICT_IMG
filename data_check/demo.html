@@ -1,0 +1,72 @@
+<html>
+  <head><title>Upload File</title></head>
+  <body>
+    <form action='/data_check/index'  method='post'>
+        start:<input id ="start" type='text' name='start' value="{{ start }}"/>
+        limit:<input id ="limit" type='text' name='limit' value="{{ limit }}"/>
+        prefix:<input type='text' name='prefix' value="{{ prefix }}"/>
+        <input type='submit' onclick="return previous()" value='previous'/>
+        <input type='submit' value='submit'/>
+        <input type='submit' onclick="return next()" value='next'/>
+        total:{{ total }}
+        <br>
+        check_dir:<input type='text' name='check_dir' value="{{ check_dir }}"/>
+        moveto_dir:<input type='text' name='moveto_dir' value="{{ moveto_dir }}"/>
+    </form>
+    
+  <div>
+       {% if imgs %}
+            {% for img in imgs %}
+               <div class="item" id="{{ img }}" style="float:left">
+                <div class="img">
+                    <img src="/data_check/file?img={{ img }}&check_dir={{ check_dir }}"/>
+                </div>
+                  <div class="button">
+                      <button onclick="del('{{ img }}','{{ check_dir }}','{{ moveto_dir }}')">错误</button>
+                  </div>
+                   <div class="button">
+                       <button id="rename_pro_{{ img }}" onclick="rename_pro('{{ img }}','{{ check_dir }}')">改名</button>
+                       <input id="input_{{ img }}" type="text"  value="" style="display:none;width:30px;"/>
+                       <button id="rename_{{ img }}" onclick="rename('{{ img }}','{{ check_dir }}')" style="display:none">修改</button>
+                  </div>
+              </div>
+            {% end %}
+       {% end %}
+    <iframe style="display: none;" id="frame" src="/data_check/del/111"></iframe>
+  </div>
+  <script>
+    function del(file,check_dir,moveto_dir){
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/data_check/del?img="+file+"&check_dir="+check_dir+"&moveto_dir="+moveto_dir);
+        document.getElementById(file).setAttribute("style","display:none");
+        document.getElementById(file).className='item_del';
+    }
+    function previous() {
+        var start = document.getElementById("start").getAttribute("value");
+        var limit = document.getElementById("limit").getAttribute("value");
+        document.getElementById("start").setAttribute("value",Number(start)-Number(limit));
+        return true;
+    }
+    function next() {
+        var start = document.getElementById("start").getAttribute("value");
+        var limit = document.getElementById("limit").getAttribute("value");
+        var dels = document.getElementsByClassName("item_del").length;
+        document.getElementById("start").setAttribute("value",Number(start)+Number(limit)-Number(dels));
+        return true;
+    }
+    function rename_pro(file,check_dir){
+        document.getElementById("rename_pro_"+file).style.display="none";
+        document.getElementById("input_"+file).style.display="";
+        document.getElementById("rename_"+file).style.display="";
+    }
+    function rename(file,check_dir){
+        var newname = document.getElementById("input_"+file).value;
+        if (newname.replace(/(^\s*)|(\s*$)/g, "").length ==0){return;}
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/data_check/rename?img="+file+"&check_dir="+check_dir+"&newname="+newname);
+        document.getElementById(file).setAttribute("style","display:none");
+        document.getElementById(file).className='item_del';
+    }
+  </script>
+  </body>
+</html>

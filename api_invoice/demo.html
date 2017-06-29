@@ -1,0 +1,82 @@
+<html>
+  <head><title>Upload File</title></head>
+  <body>
+    <form action='/invoice/index' enctype="multipart/form-data" method='post'>
+    <input type='file' name='file'/><br/>
+    <input type='submit' value='submit'/>
+    </form>
+
+    <h1>数据</h1>
+    <table border="1">
+        <tr>
+            <td>
+                key
+            </td>
+            <td>
+                value
+            </td>
+            <td>
+                图片
+            </td>
+            <td>
+                识别方法
+            </td>
+        </tr>
+        <tr>
+            <td>身份证号码</td><td>{{info.get('cardno')}}</td><td> <div><img src="data:image/png;base64,{{(img_data.get('cardno'))}}" /></div></td><td>{{log.get('cardno_type')}}</td>
+        </tr>
+         <tr>
+             <td>机构代码</td><td>{{info.get('organno')}}</td><td></td><td></td>
+        </tr>
+         <tr>
+             <td>发动机号码</td><td>{{info.get('engineno')}}</td><td><img src="data:image/png;base64,{{(img_data.get('engineno'))}}" /></td><td>{{log.get('engineno_type')}}</td>
+        </tr>
+        <tr>
+             <td>vin号码</td><td>{{info.get('vinno')}}</td><td><img src="data:image/png;base64,{{(img_data.get('vinno'))}}" /></td><td>{{log.get('vinno_type')}}</td>
+        </tr>
+        <tr>
+             <td>金额</td><td>{{info.get('price')}}</td><td><img src="data:image/png;base64,{{(img_data.get('price'))}}" /></td><td>{{log.get('price_type')}}</td>
+        </tr>
+    </table>
+
+    <h1>详细</h1>
+    <table border="1">
+        <tr>
+            <td>
+                key
+            </td>
+            <td>
+                切割图片
+            </td>
+            <td>
+                机器识别结果
+            </td>
+            <td>
+                tesseract识别结果
+            </td>
+        </tr>
+        <tr>
+            <td>身份证号码</td><td><div><img width="60%" src="data:image/png;base64,{{(img_data.get('cardno_buildfile'))}}"/></div></td><td>{{log.get('cardno_machine_default')}}</td><td>{{log.get('cardno_tesseract_default')}}</td>
+        </tr>
+         <tr>
+             <td>机构代码</td><td></td><td></td><td></td>
+        </tr>
+         <tr>
+             <td>发动机号码</td><td><img src="data:image/png;base64,{{(img_data.get('engineno_buildfile'))}}" /></td><td>{{log.get('engineno_machine_default')}}</td><td>{{log.get('engineno_tesseract_default')}}</td>
+        </tr>
+        <tr>
+             <td>vin号码</td><td ><img  width="60%" src="data:image/png;base64,{{(img_data.get('vinno_buildfile'))}}" /></td><td>{{log.get('vinno_machine_default')}}</td><td>{{log.get('vinno_tesseract_default')}}</td>
+        </tr>
+        <tr>
+             <td>金额</td><td ><img src="data:image/png;base64,{{(img_data.get('price_buildfile'))}}" /></td><td>{{log.get('price_machine_default')}}</td><td>{{log.get('price_tesseract_default')}}</td>
+        </tr>
+    </table>
+
+
+    <h1>图片</h1>
+    <div>
+        <div>原图:</div>
+        <div><img src="data:image/png;base64,{{(img_data.get('src'))}}" width="800" height="600" /></div>
+    </div>
+  </body>
+</html>

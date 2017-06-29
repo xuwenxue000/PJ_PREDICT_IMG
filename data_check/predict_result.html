@@ -1,0 +1,120 @@
+<html>
+  <head><title>predict result</title></head>
+  <body>
+    <form action='/predict_result/index'  method='post'>
+        start:<input id ="start" type='text' name='start' value="{{ start }}"/>
+        limit:<input id ="limit" type='text' name='limit' value="{{ limit }}"/>
+        prefix:<input type='text' name='prefix' value="{{ prefix }}"/>
+        <input type='submit' onclick="return previous()" value='previous'/>
+        <input type='submit' value='submit'/>
+        <input type='submit' onclick="return next()" value='next'/>
+        total:{{ total }}
+        <input type='submit' onclick="return myorder('0')" value='onlyerror'/>
+        <input type='submit' onclick="return myorder('1')" value='onlysuccess'/>
+        <input id='order' name = 'order' type ='hidden' value=''/>
+        <br>
+        predict_txt:<input id ="filename" type='text' name='filename' value="{{ filename }}"/>
+        txt_bak:<input id ="filename_bak" type='text' name='filename_bak' value=""/>
+        <input type='submit' onclick="txt_bak()" value='txt_bak'/>
+        moveto_dir:<input type='text' name='moveto_dir' value="{{ moveto_dir }}"/>
+
+        <br>-----------------------------
+        <br>
+
+        arch:<input type='text' id='architecture' value="{{ architecture }}" style = "width:200"/>
+        weights:<input type='text' id='weights' value="{{ weights }}" style = "width:180"/>
+        predict_dir:<input type='text' id='predict_dir' value="{{ check_dir }}" style = "width:380"/>
+        <br>
+        <input type='submit' onclick="re_predict()" value='re_predict'/>
+        success_rate:{{ success_rate }}
+
+        <br>
+    </form>
+    
+  <div>
+   {% if imgs %}
+        {% for img in imgs %}
+        <div class="item" id="{{ img['file_name'] }}" style="float:left">
+
+            <div class="img">
+                <img src="/predict_check/file?img={{ img['file_name'] }}&check_dir={{ check_dir }}"/>
+            </div>
+
+           {% if img['success']=='0' %}
+           <div class="button">
+              <button>error:{{ img['predict_result'] }}</button>
+            </div>
+           {% end %}
+
+            <div class="button">
+              <button onclick="del('{{ img['file_name'] }}','{{ check_dir }}','{{ moveto_dir }}')">错误</button>
+            </div>
+            <div class="button">
+               <button id="rename_pro_{{ img['file_name'] }}" onclick="rename_pro('{{ img['file_name'] }}','{{ check_dir }}')">改名</button>
+               <input id="input_{{ img['file_name'] }}" type="text"  value="" style="display:none;width:30px;"/>
+               <button id="rename_{{ img['file_name'] }}" onclick="rename('{{ img['file_name'] }}','{{ check_dir }}')" style="display:none">修改</button>
+            </div>
+
+        </div>
+        {% end %}
+   {% end %}
+    <iframe style="display: none;" id="frame" src="/predict_check/del/111"></iframe>
+  </div>
+<script>
+    function del(file,check_dir,moveto_dir){
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/predict_check/del?img="+file+"&check_dir="+check_dir+"&moveto_dir="+moveto_dir);
+        document.getElementById(file).setAttribute("style","display:none");
+        document.getElementById(file).className='item_del';
+    }
+    function previous() {
+        var start = document.getElementById("start").getAttribute("value");
+        var limit = document.getElementById("limit").getAttribute("value");
+        document.getElementById("start").setAttribute("value",Number(start)-Number(limit));
+        return true;
+    }
+    function next() {
+        var start = document.getElementById("start").getAttribute("value");
+        var limit = document.getElementById("limit").getAttribute("value");
+        var dels = document.getElementsByClassName("item_del").length;
+        document.getElementById("start").setAttribute("value",Number(start)+Number(limit));
+        return true;
+    }
+    function rename_pro(file,check_dir){
+        document.getElementById("rename_pro_"+file).style.display="none";
+        document.getElementById("input_"+file).style.display="";
+        document.getElementById("rename_"+file).style.display="";
+        document.getElementById("input_"+file).focus();
+    }
+    function rename(file,check_dir){
+        var newname = document.getElementById("input_"+file).value;
+        if (newname.replace(/(^\s*)|(\s*$)/g, "").length ==0){return;}
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/predict_check/rename?img="+file+"&check_dir="+check_dir+"&newname="+newname);
+        document.getElementById(file).setAttribute("style","display:none");
+        document.getElementById(file).className='item_del';
+    }
+    function re_predict(){
+        var architecture = document.getElementById("architecture").value;
+        var weights = document.getElementById("weights").value;
+        var predict_dir = document.getElementById("predict_dir").value;
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/predict_check/repredict?architecture="+architecture+"&weights="+weights+"&predict_dir="+predict_dir);
+        location.reload()
+    }
+
+    function myorder(flag){
+        document.getElementById("order").setAttribute("value",flag);
+        return true;
+
+    }
+    function txt_bak(){
+        var filename = document.getElementById("filename").value;
+        var filename_bak = document.getElementById("filename_bak").value;
+        var frame = document.getElementById("frame");
+        frame.setAttribute("src","/predict_check/txt_bak?filename="+filename+"&filename_bak="+filename_bak);
+    }
+
+  </script>
+  </body>
+</html>

@@ -10,16 +10,16 @@ How To Get
 
 Installation
 ------------
-brew install python3
-brew install mysql
-brew install --with-training-tools tesseract
-brew install opencv3 --with-ffmpeg --with-python3 --c++11 --with-contrib --force
-
-pip3 install tornado
-pip3 install mysqlclient
-pip3 install PILLOW
-pip3 install tensorflow
-pip3 install keras
+    brew install python3
+    brew install mysql
+    brew install --with-training-tools tesseract
+    brew install opencv3 --with-ffmpeg --with-python3 --c++11 --with-contrib --force
+    
+    pip3 install tornado
+    pip3 install mysqlclient
+    pip3 install PILLOW
+    pip3 install tensorflow
+    pip3 install keras
 
 
 Quick Start
